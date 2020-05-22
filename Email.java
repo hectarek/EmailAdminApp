@@ -10,7 +10,10 @@ public class Email {
     public Email(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.company = "n/a";
         this.department = DepartmentType.NONE;
+        this.inboxCapacity = 500;
+        this.altEmail = getNewAltEmail();
         this.password = generateRandomPassword(10);
 
         System.out.println("Email Created: " + this.firstName + " " + this.lastName);
@@ -23,6 +26,7 @@ public class Email {
         this.company = company;
         this.department = department;
         this.inboxCapacity = inboxCapacity;
+        this.altEmail = altEmail;
         this.password = generateRandomPassword(10);
     }
 
@@ -40,6 +44,10 @@ public class Email {
     }
     public void setLastname(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public String getCompany() {
@@ -60,6 +68,10 @@ public class Email {
     public DepartmentType getDepartment() {
         return department;
     }
+    public void setDepartment(DepartmentType dept) {
+        this.department = dept;
+    }
+
     public void setDepartment() {
         System.out.println("Enter a Department: SALES, DEVLOPMENT, ACCOUNTING, or NONE");
         Scanner in = new Scanner(System.in);
@@ -70,21 +82,25 @@ public class Email {
             case "Sales":
             case "SALES":
                 this.department = DepartmentType.SALES;
+                System.out.println("Department set to: " + this.department);
                 break;
             case "development":
             case "Development":
             case "DEVELOPMENT":
                 this.department = DepartmentType.DEVELOPMENT;
+                System.out.println("Department set to: " + this.department);
                 break;
             case "accounting":
             case "Accounting":
             case "ACCOUNTING":
                 this.department = DepartmentType.ACCOUNTING;
+                System.out.println("Department set to: " + this.department);
                 break;
             case "none":
             case "None":
             case "NONE":
                 this.department = DepartmentType.NONE;
+                System.out.println("Department set to: " + this.department);
                 break;
             default: 
                 System.out.println("Invalid input, no department added.");
@@ -112,7 +128,13 @@ public class Email {
     //Other Methods 
 
     public String getEmail() {
-        return firstName + "." + lastName + "@" + department + "." + company + ".com";
+        String dept = (String) department.toString().toLowerCase();
+        return firstName + "." + lastName + "@" + dept + "." + company + ".com";
+    }
+
+    private String getNewAltEmail() {
+        String dept = (String) department.toString().toLowerCase();
+        return firstName + "." + lastName + "1@" + dept + "." + company + ".com";
     }
 
     private String generateRandomPassword(int len) {
@@ -121,7 +143,6 @@ public class Email {
 
         for (int i=0; i<len; i++) {
             int rand = (int) (Math.random()*passwordSet.length());
-            System.out.println(rand);
             password[i] = passwordSet.charAt(rand);
         }
         
@@ -130,6 +151,14 @@ public class Email {
         return newPass;
     }
 
+    public void showInfo() {
+        System.out.println("Name: " + getFullName());
+        System.out.println("Company Email: " + getEmail());
+        System.out.println("Mailbox Capacity: " + getInboxCapacity());
+        System.out.println("Alt Email: " + getNewAltEmail());
+        System.out.println("Department: " + getDepartment());
+        System.out.println("Account Password: " + getPassword());
+    }
 
     
 
